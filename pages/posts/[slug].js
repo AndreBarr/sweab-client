@@ -1,19 +1,19 @@
 import Layout from "../../components/layout";
 import Date from "../../components/date";
 import Head from "next/head";
-import { getAllPostIds, getPostData } from "../../lib/posts";
+import { getAllPostSlugs, getPostDataStrapi } from "../../lib/posts";
 import utilStyles from "../../styles/utils.module.css";
 
 export async function getStaticPaths() {
-  const paths = getAllPostIds();
+  const strapiPaths = await getAllPostSlugs();
   return {
-    paths,
+    paths: strapiPaths,
     fallback: false,
   };
 }
 
 export async function getStaticProps({ params }) {
-  const postData = await getPostData(params.id);
+  const postData = await getPostDataStrapi(params.slug);
   return {
     props: {
       postData,
